@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "MainPage";
+}
+
+
+<!-- Bu sayfaya özel CSS dosyası -->
+<link href="@Url.Content("~/Content/stylef.css")" rel="stylesheet" type="text/css" />
+
+<!-- One photo behind the main area and the amenities area -->
+<div class="photo_background">
+
+    <!-- Banner text, room cards and dots -->
+    <main>
+        <div class="banner_content">
+            <h2>The right space, <br>the right time to work.</h2>
+            <p>Rent the workspace that suits your needs online and boost your productivity.</p>
+        </div>
+
+        <!-- Three room cards: they are written by the JavaScript at the bottom of this page -->
+        <div class="room_cards">
+            <div class="room_card" id="left_card"></div>
+
+            <!-- Transition buttons between the photos -->
+            <button class="arrow_button" id="prev_button" onclick="goPrev()"><</button>
+
+            <!-- The middle card is bigger and has a button -->
+            <div class="room_card main_card" id="middle_card"></div>
+
+            <button class="arrow_button" id="next_button" onclick="goNext()">></button>
+            <div class="room_card" id="right_card"></div>
+        </div>
+
+        <!-- Square dots under the cards, the active one is brighter -->
+        <div class="dots" id="dots"></div>
+    </main>
+
+    <!-- Amenities area: the sentence is on top, free list on the left, paid list on the right -->
+    <section class="amenities_area">
+        <p class="amenities_sentence">More than mere meeting spaces: flexible environments meticulously designed to align with your professional workflow and dynamic requirements.</p>
+
+        <div class="amenities_columns">
+            <!-- Left side: free -->
+            <div class="amenities_col">
+                <h3>Amenities (Free)</h3>
+                <ul>
+                    <li>Wi-Fi</li>
+                    <li>Projection</li>
+                    <li>Printing and Scanning</li>
+                    <li>Power outlets at every desk</li>
+                    <li>Whiteboards</li>
+                    <li>Bike parking</li>
+                    <li>Parking</li>
+                    <li>Network events</li>
+                </ul>
+            </div>
+
+            <!-- Right side: paid -->
+            <div class="amenities_col">
+                <h3>Services (Paid)</h3>
+                <ul>
+                    <li>Shuttle service</li>
+                    <li>Refreshments / Tea</li>
+                    <li>Coffee</li>
+                    <li>Private desk</li>
+                    <li>Large monitor</li>
+                    <li>Air conditioning</li>
+                    <li>Lockers</li>
+                    <li>And more...</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Görsel yolları Content klasörüne göre güncellendi
+    var rooms = [
+        { name: "Open Workspace", photo: '@Url.Content("~/Content/table2.jpeg")', text: "", info: "1-2 people | Wi-Fi | Daily / Monthly" },
+        { name: "Meeting Room", photo: '@Url.Content("~/Content/meeting2.jpeg")', text: "Hold your meetings in a quiet and professional environment.", info: "4-8 people | High-speed Wi-Fi | Daily / Hourly rental" },
+        { name: "Lounge Area", photo: '@Url.Content("~/Content/event.png")', text: "", info: "Comfortable seating | Wi-Fi | Daily / Hourly" }
+    ];
+
+    var current = 1;              // the room in the middle card
+    var total = rooms.length;
+
+    // small card: photo + title + info
+    function sideCardHtml(r) {
+        return "<img src='" + r.photo + "' alt='Photo'><h3>" + r.name + "</h3><p>" + r.info + "</p>";
+    }
+
+    // middle card: photo + title + text + info + button
+    function middleCardHtml(r) {
+        var html = "<img src='" + r.photo + "' alt='Photo'>";
+        html += "<h3>" + r.name + "</h3>";
+        if (r.text != "") {
+            html += "<p class='card_text'>" + r.text + "</p>";
+        }
+        html += "<p>" + r.info + "</p>";
+        html += "<button id='details_button' onclick='showDetail()'>View Details →</button>";
+        return html;
+    }
+
+    function draw() {
+        var left = (current - 1 + total) % total;
+        var right = (current + 1) % total;
+
+        document.getElementById("left_card").innerHTML = sideCardHtml(rooms[left]);
+        document.getElementById("middle_card").innerHTML = middleCardHtml(rooms[current]);
+        document.getElementById("right_card").innerHTML = sideCardHtml(rooms[right]);
+
+        // dots
+        var dotHtml = "";
+        for (var i = 0; i < total; i++) {
+            if (i == current) {
+                dotHtml += "<span class='active_dot'></span>";
+            } else {
+                dotHtml += "<span></span>";
+            }
+        }
+        document.getElementById("dots").innerHTML = dotHtml;
+    }
+
+    // next button: go to the next room, after the last one return to the first
+    function goNext() {
+        current = current + 1;
+        if (current >= total) {
+            current = 0;
+        }
+        draw();
+    }
+
+    // previous button: go back, before the first one go to the last
+    function goPrev() {
+        current = current - 1;
+        if (current < 0) {
+            current = total - 1;
+        }
+        draw();
+    }
+
+    function showDetail() {
+        alert(rooms[current].name + " details are coming soon!");
+    }
+
+    draw();
+</script>
+

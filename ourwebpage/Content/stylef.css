@@ -1,0 +1,388 @@
+﻿/* Make the size of our page as the full board and
+make margin and padding 0 so there wont be any empty space*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: Lora, Georgia, serif; /* serif font for all titles */
+}
+
+/* - TOP BAR (white) - */
+header {
+    display: flex; /*put elements of header next to each other*/
+    justify-content: space-between; /*align left and right*/
+    align-items: center; /*align elements of header in the center */
+    background-color: white; /*COLOR*/
+    padding: 20px 32px; /*space for the items from header lines*/
+    color: black /*text color*/
+}
+
+.brand {
+    display: flex; /*logo and brand name next to each other*/
+    align-items: center;
+    gap: 12px;
+}
+
+header img {
+    width: 35px;
+    height: 40px;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+    margin-left: auto; /* push the menu to the right */
+    margin-right: 32px;
+}
+
+    nav a {
+        text-decoration: none;
+        color: #222;
+        font-size: 15px;
+    }
+
+#topLayer {
+    display: flex;
+    gap: 12px;
+}
+
+button {
+    background-color: #3498db; /* button color */
+    color: white; /* text color */
+    border: none; /* no frame */
+    padding: 8px 16px; /* empty space in button*/
+    border-radius: 5px; /* to make circular corners */
+    font-weight: bold;
+}
+
+#sign_in_button {
+    background-color: #EDEDED; /* light button with frame */
+    color: #222;
+    border: 1px solid #999;
+    font-weight: normal;
+}
+
+#log_in_button {
+    background-color: #2B2B2B; /* dark button */
+}
+
+/*  ONE BACKGROUND PHOTO FOR THE MAIN AREA AND THE AMENITIES AREA ---------- */
+.photo_background {
+    background-color: #651F24; /* shown only until the background photo is added */
+    background-image: url("background.png");
+    background-size: cover; /* photo covers both areas */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/*Main Part*/
+main {
+    padding: 20px 0 40px 0;
+    font-size: 20px;
+    text-align: center;
+}
+
+.welcome_text {
+    color: #FFF1B8;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.banner_content {
+    text-align: left;
+    padding: 0 10px;
+    margin-bottom: 60px;
+}
+
+    .banner_content h2 {
+        font-size: 52px;
+        line-height: 1.1;
+        color: #FFF1B8; /* cream title */
+        margin-bottom: 12px;
+    }
+
+    .banner_content p {
+        font-size: 15px;
+        color: white;
+        max-width: 420px;
+    }
+
+/* - ROOM Photos ---------- */
+.room_cards {
+    display: flex; /* put the photos next to each other */
+    justify-content: center;
+    align-items: center; /* the middle photo is higher and lower than the side cards */
+    gap: 5px;
+}
+
+.room_card {
+    flex: none; /* photos keep their fixed size */
+    width: 375px; /* side cards: 375 x 253 */
+    height: 253px;
+    overflow: hidden;
+    background-color: white; /* card color */
+    border: 3px solid white; /* same frame size on all cards, so photos are equal */
+    padding: 8px; /* empty space inside the card */
+    text-align: left;
+    font-size: 13px;
+    color: #6B7C93;
+}
+
+    .room_card img {
+        width: 100%;
+        height: 150px; /* photo height of the side cards */
+        object-fit: cover; /* photo fits in the box without stretching */
+        background-color: #D4E4F5; /* shows this color until you add a photo */
+        color: #6B7C93;
+        display: block;
+    }
+
+    .room_card h3 {
+        margin: 10px 0 4px 0;
+        font-size: 19px;
+        color: #1F2F46;
+    }
+
+    .room_card p {
+        margin-bottom: 8px;
+    }
+
+.main_card {
+    width: 447px; /* middle card is always the big one: 447 x 397 */
+    height: 397px;
+    border-color: #D9C3B3; /* frame color of the middle card is different */
+}
+
+    .main_card img {
+        height: 225px; /* bigger photo in the middle card */
+    }
+
+    .main_card h3 {
+        font-size: 21px;
+    }
+
+/* When we press a button the new photos come in with a small animation:
+   the new middle card grows, the side cards fade in */
+.room_card > * {
+    animation: fade_in 0.4s;
+}
+
+.main_card > * {
+    animation: grow 0.4s;
+}
+
+@keyframes fade_in {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes grow {
+    from {
+        transform: scale(0.85);
+        opacity: 0.3;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.card_text {
+    font-size: 15px;
+}
+
+#details_button {
+    background-color: #B8975F; /* gold button */
+    border-radius: 0;
+    font-weight: normal;
+    margin-top: 6px;
+}
+
+/* ---------- DOTS ---------- */
+.dots {
+    margin-top: 30px;
+}
+
+    .dots span {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin: 0 5px;
+        background-color: #FFF1B8; /* cream square dots */
+    }
+
+/* ---------- BOTTOM ---------- */
+footer {
+    background-color: white; /* bacground color */
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    text-align: left;
+    gap: 27px;
+    padding: 30px 57px 30px 57px; /*top,right,bottom,left*/
+}
+
+.bottom_info_column {
+    flex: 1; /* three equal columns */
+}
+
+    .bottom_info_column:first-child {
+        border-right: 1px solid #D9C3B3; /* thin line after the first column */
+    }
+
+    .bottom_info_column h3 {
+        font-size: 20px;
+        color: #1F2F46;
+        margin-bottom: 10px;
+    }
+
+    .bottom_info_column p {
+        color: #6B7C93;
+        font-size: 15px;
+    }
+
+footer a {
+    text-decoration: none; /* Removes the underline from links */
+    color: #333; /* text color */
+    font-weight: 500;
+}
+
+/* ---------- TRANSITION BUTTONS BETWEEN THE PHOTOS ---------- */
+.arrow_button {
+    position: relative; /* stays on top of the cards */
+    z-index: 2;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin: 0 -22px; /* half of the button is on each card */
+    padding: 0;
+    border-radius: 50%; /* round button */
+    background-color: white;
+    color: #1F2F46;
+    font-size: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+    .arrow_button:hover {
+        background-color: #FFF1B8;
+    }
+
+.dots span {
+    opacity: 0.45; /* passive dots are darker */
+}
+
+    .dots span.active_dot {
+        opacity: 1; /* active dot is bright */
+    }
+
+/* -- AMENITIES AREA -- */
+.amenities_area {
+    min-height: 380px; /* makes the page bigger, space for the amenities */
+    padding: 40px 57px;
+}
+
+.amenities_sentence {
+    font-family: Lora, Georgia, serif;
+    font-size: 26px;
+    line-height: 1.4;
+    color: #FFF1B8; /* cream sentence on top */
+    max-width: 800px;
+    margin-bottom: 40px;
+}
+
+.amenities_columns {
+    display: flex; /* free list on the left, paid list on the right */
+    gap: 80px;
+}
+
+.amenities_col {
+    flex: 1;
+}
+
+    .amenities_col h3 {
+        font-size: 24px;
+        color: #FFF1B8;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #FFF1B8; /* line under the title */
+    }
+
+    .amenities_col ul {
+        padding-left: 22px; /* space for the bullets */
+    }
+
+    .amenities_col li {
+        font-size: 18px;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+/* - HOVER ANIMATIONS (when the mouse comes over)  */
+
+/* room photos become a little bigger */
+.room_card img {
+    transition: transform 0.3s;
+}
+
+    .room_card img:hover {
+        transform: scale(1.04);
+    }
+
+/* big slogan at the top */
+.banner_content h2 {
+    display: inline-block; /* only the text reacts, not the whole line */
+    transform-origin: left center;
+    transition: transform 0.3s;
+}
+
+    .banner_content h2:hover {
+        transform: scale(1.05);
+    }
+
+/* footer columns: Contact, About Us, Help */
+.bottom_info_column {
+    display: block;
+    transition: transform 0.3s;
+}
+
+    .bottom_info_column:hover {
+        transform: scale(1.06);
+    }
+
+/* Sign In and Log In buttons move up and get bigger */
+#sign_in_button, #log_in_button {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+    #sign_in_button:hover, #log_in_button:hover {
+        transform: translateY(-3px) scale(1.08);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    #sign_in_button:hover {
+        background-color: #FFF1B8;
+    }
+
+    #log_in_button:hover {
+        background-color: #3498db;
+    }
+
+    #sign_in_button:active, #log_in_button:active {
+        transform: scale(0.95); /* small press effect when clicked */
+    }

@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "ContactPage";
+}
+
+<!-- Bu sayfaya özel CSS dosyası -->
+<link href="@Url.Content("~/Content/contact.css")" rel="stylesheet" type="text/css" />
+
+<!-- Sadece bu sayfaya ait içerikler (Hero, Form ve Bilgiler) burada kalıyor -->
+<section class="hero">
+    <h1>Contact Us</h1>
+    <p>Have a question or want to learn more? <br>We'd love to hear from you.</p>
+</section>
+
+<section class="contact_area">
+
+    <!-- LEFT: location, email, phone -->
+    <div class="contact_info">
+
+        <div class="info_row">
+            <div class="icon_circle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#4F5B3F"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" /></svg>
+            </div>
+            <div>
+                <p class="info_title">Our Location</p>
+                <p class="info_text">Istanbul, Türkiye</p>
+            </div>
+        </div>
+
+        <div class="info_row">
+            <div class="icon_circle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#4F5B3F">
+                    <path d="M3 5h18v14H3z" fill="none" stroke="#4F5B3F" stroke-width="2" />
+                    <path d="M3 6l9 7 9-7" fill="none" stroke="#4F5B3F" stroke-width="2" />
+                </svg>
+            </div>
+            <div>
+                <p class="info_title">Email Us</p>
+                <p class="info_text">spacehomy@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="info_row">
+            <div class="icon_circle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#4F5B3F">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+            </div>
+            <div>
+                <p class="info_title">Call Us</p>
+                <p class="info_text">+90 555 17 60</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+    </div>
+
+    <!-- MIDDLE: message form -->
+    <div class="contact_form">
+        <h2>Send Us a Message</h2>
+
+        <input type="text" id="contact_name" placeholder="Name">
+        <input type="text" id="contact_email" placeholder="Email">
+        <select id="contact_subject">
+            <option value="">Subject</option>
+            <option>General Question</option>
+            <option>Booking</option>
+            <option>Pricing</option>
+            <option>Other</option>
+        </select>
+        <textarea id="contact_message" placeholder="Your Message"></textarea>
+
+        <button id="send_button" onclick="sendForm()">Send Message  →</button>
+    </div>
+
+    <!-- Harita görseli yolu güncellendi -->
+    <img class="side_photo" src="@Url.Content("~/Content/map.png")" alt="Map">
+</section>
+
+<script>
+    function sendForm() {
+        var name = document.getElementById("contact_name").value;
+        var email = document.getElementById("contact_email").value;
+        var subject = document.getElementById("contact_subject").value;
+        var message = document.getElementById("contact_message").value;
+
+        if (name == "" || email == "" || subject == "" || message == "") {
+            alert("Please fill in all the fields.");
+        } else if (email.indexOf("@@") == -1) {
+            alert("Please enter a valid email address.");
+        } else {
+            alert("Thank you, " + name + "! We will contact you soon.");
+        }
+    }
+</script>

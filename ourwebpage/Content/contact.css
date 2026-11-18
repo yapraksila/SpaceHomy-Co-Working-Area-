@@ -1,0 +1,187 @@
+﻿/* CSS Document - Contact page
+   The top bar and the bottom bar are in stylef.css (same as the home page).
+   Here we only write the parts that are special for the contact page. */
+
+.brand {
+    text-decoration: none; /* the brand is a link, remove the underline */
+    color: inherit;
+}
+
+/* the area under the hero: cream color, green text */
+.contact_area, .hero {
+    font-family: 'DM Sans', Arial, sans-serif;
+}
+
+    .hero h1, .contact_form h2 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-weight: 400;
+    }
+
+/* ---------- HERO ---------- */
+.hero {
+    height: 410px;
+    padding: 130px 0 0 116px;
+    color: white;
+    background-color: #5B6648; /* shown only until the hero photo is added */
+    background-image: linear-gradient(to right, rgba(91,102,72,0.9) 0%, rgba(91,102,72,0.6) 45%, rgba(91,102,72,0) 55%), url("contact_background.jpeg"), linear-gradient(to right, #5B6648 50%, #A68F6A 100%);
+    /* the last gradient is only a placeholder (green + warm wood color) until your photo comes */
+    background-size: cover;
+    background-position: center;
+}
+
+    .hero h1 {
+        font-size: 84px;
+        line-height: 1;
+        margin-bottom: 30px;
+    }
+
+    .hero p {
+        font-size: 20px;
+        line-height: 1.5;
+    }
+
+/* ---------- THREE COLUMNS ---------- */
+.contact_area {
+    background-color: #ffffff;
+    color: #4F5B3F; /* dark green text */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    padding: 50px 94px 70px 94px;
+}
+
+/* left: info */
+.contact_info {
+    width: 230px;
+    flex: none;
+    padding-top: 35px;
+}
+
+.info_row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.icon_circle {
+    width: 50px;
+    height: 50px;
+    flex: none;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.info_row:hover .icon_circle {
+    transform: scale(1.12); /* icon circle grows when the mouse comes */
+}
+
+.info_title {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.info_text {
+    font-size: 15px;
+    color: #5E6650;
+}
+
+.line {
+    border-top: 1px solid #CFCABD;
+    margin: 10px 0 25px 0;
+}
+
+.social {
+    display: flex;
+    gap: 18px;
+}
+
+    .social a {
+        font-size: 14px;
+        color: #4F5B3F;
+        text-decoration: none;
+        transition: transform 0.2s;
+    }
+
+        .social a:hover {
+            transform: translateY(-3px);
+        }
+
+/* middle: form */
+.contact_form {
+    width: 495px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+}
+
+    .contact_form h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .contact_form input, .contact_form select, .contact_form textarea {
+        font-family: inherit;
+        width: 100%;
+        height: 43px;
+        margin-bottom: 12px;
+        padding: 0 14px;
+        background-color: transparent;
+        border: 1px solid #CFCABD;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #4F5B3F;
+    }
+
+    .contact_form textarea {
+        height: 105px;
+        padding-top: 12px;
+        resize: none;
+    }
+
+        .contact_form input:focus, .contact_form select:focus, .contact_form textarea:focus {
+            outline: none;
+            border-color: #5B6648; /* green frame when you click in the box */
+            background-color: white;
+        }
+
+#send_button {
+    font-weight: normal; /* the home page button style is bold, we do not want it here */
+    font-family: inherit;
+    width: 241px;
+    height: 39px;
+    margin-top: 10px;
+    background-color: #5B6648;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    #send_button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    }
+
+/* right: map photo */
+.side_photo {
+    width: 420px;
+    height: 402px;
+    flex: none;
+    margin-top: 0;
+    object-fit: cover;
+    border-radius: 12px;
+    background-color: #D9D5C8;
+    transition: transform 0.3s;
+}
+
+    .side_photo:hover {
+        transform: scale(1.03);
+    }
