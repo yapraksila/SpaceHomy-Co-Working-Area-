@@ -143,6 +143,7 @@
     <Content Include="Views\Home\AboutPage.cshtml" />
     <Content Include="Views\Home\ContactPage.cshtml" />
     <Content Include="Views\Home\MainPage.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
