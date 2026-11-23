@@ -130,6 +130,10 @@
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IAvailabilityService.cs" />
+    <Compile Include="Services\ICheckoutService.cs" />
+    <Compile Include="Services\INotificationService.cs" />
+    <Compile Include="Services\IRoomService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
