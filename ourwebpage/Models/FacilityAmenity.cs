@@ -17,7 +17,7 @@ namespace ourwebpage.Models
         public string AmenityName { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(10,2)")]
+        [Column("extra_price")]
         public decimal ExtraPrice { get; set; }
 
         [Required]

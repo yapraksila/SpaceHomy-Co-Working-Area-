@@ -18,13 +18,27 @@ namespace ourwebpage.Models
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<CartItemAmenity> CartItemAmenities { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BookingAmenity> BookingAmenities { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Facility>()
+                .Property(f => f.Price)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<FacilityAmenity>()
+                .Property(a => a.ExtraPrice)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasPrecision(10, 2);
 
             modelBuilder.Entity<Booking>()
                 .HasRequired(b => b.RoleUser)
@@ -44,6 +58,18 @@ namespace ourwebpage.Models
                 .HasForeignKey(b => b.PaymentId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<BookingAmenity>()
+                .HasRequired(ba => ba.Booking)
+                .WithMany()
+                .HasForeignKey(ba => ba.BookingId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BookingAmenity>()
+                .HasRequired(ba => ba.Amenity)
+                .WithMany()
+                .HasForeignKey(ba => ba.AmenityId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Cart>()
                 .HasRequired(c => c.RoleUser)
                 .WithMany()
@@ -60,6 +86,18 @@ namespace ourwebpage.Models
                 .HasRequired(ci => ci.Facility)
                 .WithMany()
                 .HasForeignKey(ci => ci.FacilityId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<CartItemAmenity>()
+                .HasRequired(cia => cia.CartItem)
+                .WithMany()
+                .HasForeignKey(cia => cia.CartItemId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<CartItemAmenity>()
+                .HasRequired(cia => cia.Amenity)
+                .WithMany()
+                .HasForeignKey(cia => cia.AmenityId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Notification>()

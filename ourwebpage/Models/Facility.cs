@@ -24,8 +24,9 @@ namespace ourwebpage.Models
         public int Capacity { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(10,2)")]
+        [Column("price")]
         public decimal Price { get; set; }
+      
 
         [Required]
         [MaxLength(10)]

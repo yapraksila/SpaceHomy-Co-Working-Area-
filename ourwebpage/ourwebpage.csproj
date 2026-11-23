@@ -107,10 +107,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202611231329121_InitialCoworkingSchema.cs" />
+    <Compile Include="Migrations\202611231329121_InitialCoworkingSchema.Designer.cs">
+      <DependentUpon>202611231329121_InitialCoworkingSchema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\BookingAmenities.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CartItemAmenities.cs" />
     <Compile Include="Models\Facility.cs" />
     <Compile Include="Models\FacilityAmenity.cs" />
     <Compile Include="Models\FacilityImage.cs" />
@@ -137,6 +144,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202611231329121_InitialCoworkingSchema.resx">
+      <DependentUpon>202611231329121_InitialCoworkingSchema.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

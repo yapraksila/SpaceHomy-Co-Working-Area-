@@ -53,5 +53,105 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <style>
+        header {
+            display: flex; /*put elements of header next to each other*/
+            justify-content: space-between; /*align left and right*/
+            align-items: center; /*align elements of header in the center */
+            background-color: white; /*COLOR*/
+            padding: 20px 32px; /*space for the items from header lines*/
+            color: black /*text color*/
+        }
+
+        .brand {
+            display: flex; /*logo and brand name next to each other*/
+            align-items: center;
+            gap: 12px;
+        }
+
+        header img {
+            width: 35px;
+            height: 40px;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+            margin-left: auto; /* push the menu to the right */
+            margin-right: 32px;
+        }
+
+            nav a {
+                text-decoration: none;
+                color: #222;
+                font-size: 15px;
+            }
+
+        #topLayer {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            background-color: #3498db; /* button color */
+            color: white; /* text color */
+            border: none; /* no frame */
+            padding: 8px 16px; /* empty space in button*/
+            border-radius: 5px; /* to make circular corners */
+            font-weight: bold;
+        }
+
+        #sign_in_button {
+            background-color: #EDEDED; /* light button with frame */
+            color: #222;
+            border: 1px solid #999;
+            font-weight: normal;
+        }
+
+        #log_in_button {
+            background-color: #2B2B2B; /* dark button */
+
+        }
+
+        footer {
+            background-color: white; /* bacground color */
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            text-align: left;
+            gap: 27px;
+            padding: 30px 57px 30px 57px; /*top,right,bottom,left*/
+        }
+
+        .bottom_info_column {
+            flex: 1; /* three equal columns */
+        }
+
+            .bottom_info_column:first-child {
+                border-right: 1px solid #D9C3B3; /* thin line after the first column */
+            }
+
+            .bottom_info_column h3 {
+                font-size: 20px;
+                color: #1F2F46;
+                margin-bottom: 10px;
+            }
+
+            .bottom_info_column p {
+                color: #6B7C93;
+                font-size: 15px;
+            }
+
+        footer a {
+            text-decoration: none; /* Removes the underline from links */
+            color: #333; /* text color */
+            font-weight: 500;
+        }
+    </style>
 </body>
 </html>

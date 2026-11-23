@@ -18,7 +18,7 @@ namespace ourwebpage.Models
         public virtual Role RoleUser { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(10,2)")]
+        [Column("amount")]
         public decimal Amount { get; set; }
 
         [Required]
