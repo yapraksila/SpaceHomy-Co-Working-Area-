@@ -32,11 +32,12 @@ namespace ourwebpage.Models
 
         [Required]
         [MaxLength(50)]
+        [RegularExpression("Unread|Read")]
         public string Status { get; set; }
 
         public Notification()
         {
-            Status = "unread";
+            Status = "Unread";
         }
     }
 }

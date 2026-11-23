@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ourwebpage.Models
@@ -27,6 +29,24 @@ namespace ourwebpage.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Role>()
+                .Property(r => r.Email)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Roles_Email_Unique") { IsUnique = true }));
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.FacilityId)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Booking_Facility_Day", 1)));
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.BookingDay)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Booking_Facility_Day", 2)));
 
             modelBuilder.Entity<Facility>()
                 .Property(f => f.Price)

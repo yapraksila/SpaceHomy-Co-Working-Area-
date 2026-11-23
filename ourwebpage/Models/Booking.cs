@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ourwebpage.Models;
 
 namespace ourwebpage.Models
 {
@@ -46,6 +47,7 @@ namespace ourwebpage.Models
 
         [Required]
         [MaxLength(50)]
+        [RegularExpression("Pending|Confirmed|Cancelled|Completed")]
         [Column("status")]
         public string Status { get; set; }
 
@@ -53,7 +55,7 @@ namespace ourwebpage.Models
 
         public Booking()
         {
-            Status = "confirmed";
+            Status = "Pending";
             BookingAmenities = new HashSet<BookingAmenity>();
         }
     }

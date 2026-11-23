@@ -111,6 +111,10 @@
     <Compile Include="Migrations\202611231329121_InitialCoworkingSchema.Designer.cs">
       <DependentUpon>202611231329121_InitialCoworkingSchema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202611231405442_AddStatusesAndIndexes.cs" />
+    <Compile Include="Migrations\202611231405442_AddStatusesAndIndexes.Designer.cs">
+      <DependentUpon>202611231405442_AddStatusesAndIndexes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -148,6 +152,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202611231329121_InitialCoworkingSchema.resx">
       <DependentUpon>202611231329121_InitialCoworkingSchema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202611231405442_AddStatusesAndIndexes.resx">
+      <DependentUpon>202611231405442_AddStatusesAndIndexes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
