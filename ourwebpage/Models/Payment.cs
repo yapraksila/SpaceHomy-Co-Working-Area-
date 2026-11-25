@@ -31,6 +31,7 @@ namespace ourwebpage.Models
 
         [Required]
         [MaxLength(50)]
+        [RegularExpression("Paid|Failed|Refunded")]
         public string Status { get; set; }
 
         [Required]
@@ -41,7 +42,7 @@ namespace ourwebpage.Models
         public Payment()
         {
             Currency = "TRY";
-            Status = "pending";
+            Status = "Paid";
             CreatedAt = DateTime.Now;
             Bookings = new HashSet<Booking>();
         }

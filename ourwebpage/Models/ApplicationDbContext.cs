@@ -1,15 +1,23 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ourwebpage.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base("name=DefaultConnection")
+        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        public DbSet<Role> Roles { get; set; }
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+
+        public new DbSet<Role> Roles { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<FacilityAmenity> FacilityAmenities { get; set; }
         public DbSet<OperatingHour> OperatingHours { get; set; }
@@ -27,6 +35,24 @@ namespace ourwebpage.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Role>()
+                .Property(r => r.Email)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Roles_Email_Unique") { IsUnique = true }));
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.FacilityId)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Booking_Facility_Day", 1)));
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.BookingDay)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Booking_Facility_Day", 2)));
 
             modelBuilder.Entity<Facility>()
                 .Property(f => f.Price)
