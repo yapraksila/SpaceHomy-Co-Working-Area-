@@ -27,9 +27,28 @@
         </nav>
 
         <div id="topLayer">
-            <button id="sign_in_button" onclick="window.location.href='#'">Sign In</button>
-            <button id="log_in_button" onclick="window.location.href='#'">Log In</button>
+            @if (Request.IsAuthenticated)
+         {
+            <span style="align-self: center; font-weight: 600; color: #222; margin-right: 8px;">
+                @User.Identity.Name
+            </span>
+             if (User.IsInRole("Admin"))
+             {
+            <button id="sign_in_button" onclick="window.location.href='@Url.Action("Index", "Admin")'">Admin Panel</button>
+             }
+             using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline;" }))
+             {
+            @Html.AntiForgeryToken()
+            <button id="log_in_button" type="submit">Log Out</button>
+             }
+         }
+         else
+         {
+            <button id="sign_in_button" onclick="window.location.href='@Url.Action("Login", "Account")'">Sign In</button>
+            <button id="log_in_button" onclick="window.location.href='@Url.Action("Register", "Account")'">Register</button>
+         }
         </div>
+
     </header>
 
     <!-- Kapsayıcı sınıfları kaldırdık, sayfalar kendi stilleriyle tam oturacak -->

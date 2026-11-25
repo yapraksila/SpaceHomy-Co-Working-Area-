@@ -2,16 +2,22 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ourwebpage.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base("name=DefaultConnection")
+        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        public DbSet<Role> Roles { get; set; }
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+
+        public new DbSet<Role> Roles { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<FacilityAmenity> FacilityAmenities { get; set; }
         public DbSet<OperatingHour> OperatingHours { get; set; }

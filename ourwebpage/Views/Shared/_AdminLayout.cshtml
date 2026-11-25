@@ -81,4 +81,45 @@
 </head>
 <body>
     <div id="wrapper">
-        <!-- Sol Yan Menü (Sidebar)
+        <!-- Sol Yan Menü (Sidebar) -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <i class="bi bi-building"></i> SpaceHomy Admin
+            </div>
+            <div class="list-group list-group-flush my-2">
+                <a href="@Url.Action("Index", "Admin")" class="list-group-item active">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a href="@Url.Action("MainPage", "Home")" class="list-group-item">
+                    <i class="bi bi-house-door"></i> Back to Site
+                </a>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "adminLogoutForm" }))
+                {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('adminLogoutForm').submit()" class="list-group-item text-danger mt-3">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+                }
+            </div>
+        </div>
+
+        <!-- Sağ Ana İçerik Alanı -->
+        <div id="page-content-wrapper">
+            <!-- Üst Bilgi Çubuğu (Navbar) -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-3">
+                <button class="btn btn-outline-secondary btn-sm" id="menu-toggle" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="navbar-text ms-auto fw-semibold">
+                    <i class="bi bi-person-circle"></i> @User.Identity.Name
+                </span>
+            </nav>
+
+            <!-- Dinamik Sayfa İçeriği -->
+            <main class="container-fluid p-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="
