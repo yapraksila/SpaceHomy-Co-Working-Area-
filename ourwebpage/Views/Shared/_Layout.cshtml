@@ -24,6 +24,10 @@
             <a href="#">Resources</a>
             <a href="#">Pricing</a>
             <a href="@Url.Action("ContactPage", "Home")">Contact</a>
+            @if (Request.IsAuthenticated)
+            {
+                <a href="@Url.Action("Index", "Profile")">Profile</a>
+            }
         </nav>
 
         <div id="topLayer">

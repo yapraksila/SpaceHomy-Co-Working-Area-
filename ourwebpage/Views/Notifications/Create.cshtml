@@ -1,0 +1,308 @@
+﻿@{
+    ViewBag.Title = "Admin - Create Notification";
+    var recentNotifications = ViewBag.RecentNotifications as IEnumerable<Notification> ?? Enumerable.Empty<Notification>();
+}
+@model ourwebpage.Models.Notification
+@using ourwebpage.Models
+
+<style>
+    .notif-page-bg {
+        background-color: #FAF7F0;
+        min-height: calc(100vh - 80px);
+        padding: 40px 16px 64px;
+        color: #2E271F;
+    }
+
+    .notif-container {
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .notif-header-bar {
+        background-color: #65743A;
+        color: #FFFFFF;
+        border: 1.5px solid #4E5B2B;
+        border-radius: 6px;
+        padding: 18px 24px;
+        margin-bottom: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .notif-header-title {
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin: 0 0 4px 0;
+        color: #FFFFFF;
+    }
+
+    .notif-header-subtitle {
+        font-size: 0.85rem;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.88);
+    }
+
+    .btn-notif-inbox {
+        background-color: #5E3E28;
+        border: 1px solid #4A301E;
+        border-radius: 5px;
+        padding: 9px 18px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: #FFFFFF;
+        text-decoration: none;
+        display: inline-block;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: background-color 0.15s ease;
+    }
+
+        .btn-notif-inbox:hover {
+            background-color: #4A301E;
+            color: #FFFFFF;
+        }
+
+    .notif-card {
+        background-color: #F3E39A;
+        border: 1.5px solid #7E8354;
+        border-radius: 6px;
+        overflow: hidden;
+        color: #2E271F;
+    }
+
+    .notif-card-header {
+        background-color: #65743A;
+        color: #FFFFFF;
+        padding: 14px 22px;
+        border-bottom: 1.5px solid #7E8354;
+    }
+
+    .notif-card-body {
+        padding: 28px 30px;
+    }
+
+    .notif-field {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .notif-card .form-label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #2E271F;
+        margin-bottom: 6px;
+    }
+
+    .notif-card .form-control,
+    .notif-card .form-select {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        background-color: #FFFFFF;
+        border: 1px solid #9D967B;
+        border-radius: 5px;
+        padding: 10px 14px;
+        font-size: 0.92rem;
+        color: #2E271F;
+        box-sizing: border-box;
+        box-shadow: none;
+    }
+
+        .notif-card .form-control:not(textarea),
+        .notif-card .form-select {
+            height: 44px;
+        }
+
+    .notif-card textarea.form-control {
+        min-height: 180px;
+        resize: vertical;
+        line-height: 1.45;
+    }
+
+    .notif-card .form-control::placeholder {
+        color: #9C9688;
+    }
+
+    .notif-card .form-control:focus,
+    .notif-card .form-select:focus {
+        border-color: #65743A;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(101, 116, 58, 0.18);
+    }
+
+    .btn-notif-submit {
+        display: block;
+        position: relative;
+        z-index: 1;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 44px;
+        margin-top: 12px;
+        background-color: #5E3E28;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #FFFFFF;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+
+        .btn-notif-submit:hover {
+            background-color: #4A301E;
+            color: #FFFFFF;
+        }
+
+    .notif-table {
+        background-color: #EAD88B;
+        color: #2E271F;
+        margin-bottom: 0;
+    }
+
+        .notif-table thead th {
+            background-color: #DFCA74;
+            color: #2E271F;
+            border-bottom: 1.5px solid #9D967B;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 12px 14px;
+        }
+
+        .notif-table tbody td {
+            border-color: #C7B66E;
+            padding: 12px 14px;
+            vertical-align: middle;
+        }
+
+        .notif-table tbody tr:hover {
+            background-color: #E3CE78;
+        }
+</style>
+
+<div class="notif-page-bg">
+    <div class="notif-container">
+        <div class="notif-header-bar">
+            <div>
+                <h2 class="notif-header-title">Create Notification</h2>
+                <p class="notif-header-subtitle">Choose a user or role and send a message to them.</p>
+            </div>
+            <a href="@Url.Action("Inbox", "Notifications")" class="btn-notif-inbox">
+                My Notifications
+            </a>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="row g-4 justify-content-center align-items-start">
+            <div class="col-lg-6">
+                <div class="notif-card">
+                    <div class="notif-card-header">
+                        <h5 class="mb-0 fw-semibold">New Notification Form</h5>
+                    </div>
+                    <div class="notif-card-body">
+                        @using (Html.BeginForm("Create", "Notifications", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                            <div class="notif-field">
+                                @Html.LabelFor(m => m.RoleId, "User / Role", new { @class = "form-label" })
+                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.RoleId, "-- Choose --", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <div class="notif-field">
+                                @Html.LabelFor(m => m.Title, "Notification Title", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Ex: Notification Approval", maxlength = "150" })
+                                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <div class="notif-field">
+                                @Html.LabelFor(m => m.Message, "Message", new { @class = "form-label" })
+                                @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 7, placeholder = "Enter your message..." })
+                                @Html.ValidationMessageFor(m => m.Message, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <button type="submit" class="btn-notif-submit">Send</button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="notif-card">
+                    <div class="notif-card-header">
+                        <h5 class="mb-0 fw-semibold">Recently Sent Notifications</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table notif-table">
+                            <thead>
+                                <tr>
+                                    <th>Recipient / Role</th>
+                                    <th>Title & Message</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!recentNotifications.Any())
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4" style="color: #4F4838;">No notifications yet.</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in recentNotifications)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (item.RoleUser != null)
+                                                {
+                                                    <div class="fw-semibold">@item.RoleUser.Name</div>
+                                                    <span class="badge bg-info text-dark">@item.RoleUser.RoleName</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: #4F4838;">RoleId: @item.RoleId</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="fw-semibold">@item.Title</div>
+                                                <div class="small text-truncate" style="max-width: 220px; color: #4F4838;">@item.Message</div>
+                                            </td>
+                                            <td class="small text-nowrap">
+                                                <div>@item.Date.ToString("dd.MM.yyyy")</div>
+                                                <div style="color: #4F4838;">@item.Time.ToString(@"hh\:mm")</div>
+                                            </td>
+                                            <td>
+                                                @if (item.Status == "Unread")
+                                                {
+                                                    <span class="badge bg-warning text-dark">Unread</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-success">Read</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

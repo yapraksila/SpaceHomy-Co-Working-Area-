@@ -4,36 +4,169 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container py-5" style="max-width: 450px;">
-    <h2 class="mb-4 text-center">Sign In to SpaceHomy</h2>
-
-    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-    {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
-
-    <div class="mb-3">
-        @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
-        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Username" })
-        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="mb-3">
-        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="mb-3 form-check">
-        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
-        @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
-    </div>
-
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-
-    <div class="mt-3 text-center">
-        <span>Don't have an account? </span>
-        <a href="@Url.Action("Register", "Account")">Register here</a>
-    </div>
+<style>
+    .auth-page-bg {
+        background-color: #FAF7F0;
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
     }
+
+    .auth-card {
+        background-color: #F3E39A;
+        border: 1.5px solid #7E8354;
+        border-radius: 6px;
+        padding: 44px 48px;
+        width: 100%;
+        max-width: 520px;
+        color: #2E271F;
+    }
+
+    .auth-title {
+        color: #65743A;
+        font-weight: 700;
+        font-size: 2.1rem;
+        margin-bottom: 6px;
+        text-align: center;
+    }
+
+    .auth-subtitle {
+        color: #4F4838;
+        font-size: 0.85rem;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .auth-field {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .auth-card .form-label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #2E271F;
+        margin-bottom: 6px;
+    }
+
+    .auth-card .form-control {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 44px;
+        background-color: #FFFFFF;
+        border: 1px solid #9D967B;
+        border-radius: 5px;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        color: #2E271F;
+        box-sizing: border-box;
+        box-shadow: none;
+    }
+
+        .auth-card .form-control::placeholder {
+            color: #9C9688;
+        }
+
+        .auth-card .form-control:focus {
+            border-color: #65743A;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(101, 116, 58, 0.15);
+        }
+
+    .auth-remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+        margin-bottom: 24px;
+    }
+
+        .auth-remember input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: #5E3E28;
+            cursor: pointer;
+        }
+
+        .auth-remember label {
+            margin: 0;
+            font-size: 0.82rem;
+            color: #3E372B;
+            cursor: pointer;
+        }
+
+    .btn-auth-submit {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 44px;
+        background-color: #5E3E28;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: #FFFFFF;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+
+        .btn-auth-submit:hover {
+            background-color: #4A301E;
+            color: #FFFFFF;
+        }
+
+    .auth-footer-text {
+        margin-top: 22px;
+        text-align: center;
+        font-size: 0.82rem;
+        color: #3E372B;
+    }
+
+        .auth-footer-text a {
+            color: #2E271F;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+</style>
+
+<div class="auth-page-bg">
+    <div class="auth-card">
+        <h2 class="auth-title">Log in</h2>
+        <p class="auth-subtitle">Welcome back. Your next space is waiting.</p>
+
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+            <div class="auth-field">
+                @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Enter your username" })
+                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="auth-field">
+                @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="auth-remember">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe, "Remember me")
+            </div>
+
+            <button type="submit" class="btn-auth-submit">Log in</button>
+
+            <div class="auth-footer-text">
+                <span>Don't have an account? </span>
+                <a href="@Url.Action("Register", "Account")">Register here</a>
+            </div>
+        }
+    </div>
 </div>

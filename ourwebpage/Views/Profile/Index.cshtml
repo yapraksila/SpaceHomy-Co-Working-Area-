@@ -1,0 +1,415 @@
+﻿@model ourwebpage.Models.ProfileIndexViewModel
+@using System.Globalization
+@using System.Linq
+
+@{
+    ViewBag.Title = "My Profile";
+    var enCulture = CultureInfo.GetCultureInfo("en-US");
+
+    var userName = !string.IsNullOrEmpty(Model.UserName)
+        ? Model.UserName
+        : User.Identity.Name;
+
+    var activeBookings = Model.ActiveBookings != null
+        ? Model.ActiveBookings.ToList()
+        : new System.Collections.Generic.List<ourwebpage.Models.Booking>();
+
+    var pastBookings = Model.PastBookings != null
+        ? Model.PastBookings.ToList()
+        : new System.Collections.Generic.List<ourwebpage.Models.Booking>();
+}
+
+<style>
+    .profile-page-wrapper {
+        background-color: #FAF7F0;
+        min-height: calc(100vh - 80px);
+        padding: 44px 0 72px;
+        color: #3B2F23;
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+
+    .profile-container {
+        max-width: 1060px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .profile-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+        margin-bottom: 44px;
+    }
+
+    .profile-title {
+        font-size: 2.35rem;
+        font-weight: 700;
+        color: #3B2F23;
+        margin: 10px 0 0 0;
+        letter-spacing: -0.5px;
+    }
+
+    .account-card {
+        background-color: #65743A;
+        color: #FFFFFF;
+        border-radius: 10px;
+        padding: 18px 22px;
+        width: 245px;
+        flex-shrink: 0;
+        margin-left: auto;
+        box-shadow: 0 4px 12px rgba(59, 47, 35, 0.08);
+    }
+
+    .account-card-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        margin-bottom: 14px;
+    }
+
+    .account-card-username {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .account-card-fullname {
+        font-size: 0.84rem;
+        opacity: 0.92;
+        margin-bottom: 10px;
+    }
+
+    .account-card-email {
+        font-size: 0.76rem;
+        opacity: 0.85;
+        word-break: break-all;
+    }
+
+    .section-block {
+        margin-bottom: 42px;
+    }
+
+    .section-heading {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #3B2F23;
+        margin-bottom: 16px;
+    }
+
+    .reservation-card {
+        background-color: #F3E39A;
+        border-radius: 8px;
+        padding: 18px 24px;
+        margin-bottom: 16px;
+        color: #3B2F23;
+    }
+
+    .reservation-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1.2fr 1.5fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    .res-field-label {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #6E5D46;
+        margin-bottom: 4px;
+    }
+
+    .res-room-value {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #3B2F23;
+    }
+
+    .res-meta-value {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #3B2F23;
+    }
+
+    .res-status-text {
+        font-size: 0.75rem;
+        color: #6E5D46;
+        margin-top: 22px;
+        display: inline-block;
+    }
+
+    .res-right-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 76px;
+    }
+
+    .res-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+    }
+
+        .res-actions form {
+            margin: 0;
+            display: inline-flex;
+        }
+
+    .btn-brown {
+        background-color: #6B4A35;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 5px;
+        padding: 7px 22px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+        .btn-brown:hover {
+            background-color: #543827;
+            color: #FFFFFF;
+        }
+
+    .empty-reservation-box {
+        background-color: #F3E39A;
+        border-radius: 8px;
+        padding: 22px 24px;
+        color: #6E5D46;
+        font-size: 0.92rem;
+    }
+
+    @@media (max-width: 768px) {
+        .profile-top-row {
+            flex-direction: column;
+        }
+
+        .account-card {
+            margin-left: 0;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .reservation-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .res-status-text {
+            margin-top: 8px;
+        }
+
+        .res-right-col {
+            min-height: auto;
+        }
+
+        .res-actions {
+            justify-content: flex-start;
+        }
+    }
+</style>
+
+<div class="profile-page-wrapper">
+    <div class="profile-container">
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="profile-top-row">
+            <div>
+                <h1 class="profile-title">My Profile</h1>
+            </div>
+
+            <a href="@Url.Action("Edit", "Profile")" class="text-decoration-none" title="Edit Profile">
+                <div class="account-card">
+                    <div class="account-card-label">ACCOUNT</div>
+                    <div class="account-card-username">@userName</div>
+                    <div class="account-card-fullname">@Model.UserProfile.Name</div>
+                    <div class="account-card-email">@Model.UserProfile.Email</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="section-block">
+            <h2 class="section-heading">Active reservations</h2>
+
+            @if (!activeBookings.Any())
+            {
+                <div class="empty-reservation-box">
+                    You have no active reservations.
+                </div>
+            }
+            else
+            {
+                foreach (var booking in activeBookings)
+                {
+                    string roomName = booking.Facility != null ? booking.Facility.Name : ("Room #" + booking.FacilityId);
+                    string formattedDate = booking.BookingDay.ToString("dd MMMM yyyy", enCulture);
+                    string formattedTime = booking.StartTime.ToString(@"hh\:mm") + " – " + booking.EndTime.ToString(@"hh\:mm");
+                    string statusLabel = (booking.Status == "Confirmed" || booking.Status == "Pending") ? "Upcoming" : booking.Status;
+
+                    <div class="reservation-card">
+                        <div class="reservation-grid">
+                            <div>
+                                <div class="res-field-label">ROOM</div>
+                                <div class="res-room-value">@roomName</div>
+                                <span class="res-status-text">@statusLabel</span>
+                            </div>
+
+                            <div>
+                                <div class="res-field-label">DATE</div>
+                                <div class="res-meta-value">@formattedDate</div>
+                            </div>
+
+                            <div class="res-right-col">
+                                <div>
+                                    <div class="res-field-label">TIME</div>
+                                    <div class="res-meta-value">@formattedTime</div>
+                                </div>
+
+                                <div class="res-actions">
+                                    <button type="button"
+                                            class="btn btn-brown"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#bookingDetailModal"
+                                            data-id="@booking.BookingId"
+                                            data-room="@roomName"
+                                            data-date="@formattedDate"
+                                            data-time="@formattedTime"
+                                            data-status="@statusLabel">
+                                        Details
+                                    </button>
+
+                                    @using (Html.BeginForm("CancelBooking", "Profile", FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to cancel this reservation?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("id", booking.BookingId)
+                                        <button type="submit" class="btn btn-brown">Cancel</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="section-block">
+            <h2 class="section-heading">Old reservations</h2>
+
+            @if (!pastBookings.Any())
+            {
+                <div class="empty-reservation-box">
+                    You have no past reservations.
+                </div>
+            }
+            else
+            {
+                foreach (var booking in pastBookings)
+                {
+                    string roomName = booking.Facility != null ? booking.Facility.Name : ("Room #" + booking.FacilityId);
+                    string formattedDate = booking.BookingDay.ToString("dd MMMM yyyy", enCulture);
+                    string formattedTime = booking.StartTime.ToString(@"hh\:mm") + " – " + booking.EndTime.ToString(@"hh\:mm");
+                    string statusLabel = booking.Status == "Cancelled" ? "Cancelled" : "Completed";
+
+                    <div class="reservation-card">
+                        <div class="reservation-grid">
+                            <div>
+                                <div class="res-field-label">ROOM</div>
+                                <div class="res-room-value">@roomName</div>
+                                <span class="res-status-text">@statusLabel</span>
+                            </div>
+
+                            <div>
+                                <div class="res-field-label">DATE</div>
+                                <div class="res-meta-value">@formattedDate</div>
+                            </div>
+
+                            <div class="res-right-col">
+                                <div>
+                                    <div class="res-field-label">TIME</div>
+                                    <div class="res-meta-value">@formattedTime</div>
+                                </div>
+
+                                <div class="res-actions">
+                                    <button type="button"
+                                            class="btn btn-brown"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#bookingDetailModal"
+                                            data-id="@booking.BookingId"
+                                            data-room="@roomName"
+                                            data-date="@formattedDate"
+                                            data-time="@formattedTime"
+                                            data-status="@statusLabel">
+                                        Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="bookingDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #FAF7F0; color: #3B2F23; border-radius: 10px;">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Reservation Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-muted">Reservation ID</dt>
+                    <dd class="col-sm-8 fw-semibold" id="modalResId"></dd>
+
+                    <dt class="col-sm-4 text-muted">Room</dt>
+                    <dd class="col-sm-8 fw-semibold" id="modalResRoom"></dd>
+
+                    <dt class="col-sm-4 text-muted">Date</dt>
+                    <dd class="col-sm-8" id="modalResDate"></dd>
+
+                    <dt class="col-sm-4 text-muted">Time</dt>
+                    <dd class="col-sm-8" id="modalResTime"></dd>
+
+                    <dt class="col-sm-4 text-muted">Status</dt>
+                    <dd class="col-sm-8" id="modalResStatus"></dd>
+                </dl>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-brown" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('bookingDetailModal')?.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        if (!button) return;
+
+        document.getElementById('modalResId').textContent = '#' + button.getAttribute('data-id');
+        document.getElementById('modalResRoom').textContent = button.getAttribute('data-room');
+        document.getElementById('modalResDate').textContent = button.getAttribute('data-date');
+        document.getElementById('modalResTime').textContent = button.getAttribute('data-time');
+        document.getElementById('modalResStatus').textContent = button.getAttribute('data-status');
+    });
+</script>
+```[cite: 1]
+
+`ProfileController` tarafında da `Index` action'ının `ProfileIndexViewModel` doldurup `View(vm)` döndürdüğünden emin olman yeterli. Sayfada hâlâ yerleşimle ilgili farklı duran bir kısım görürsen söyle, hemen düzeltelim[cite: 1].

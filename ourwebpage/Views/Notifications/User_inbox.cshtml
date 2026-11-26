@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "User_inbox";
+    int unreadCount = ViewBag.UnreadCount ?? 0;
+    var currentUser = ViewBag.CurrentUser as Role;
+    bool isAdmin = Request.IsAuthenticated && User.IsInRole(MyConstants.RoleAdmin);
+}
+
+@model IEnumerable<ourwebpage.Models.Notification>
+@using ourwebpage.Models
+
+
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <div>
+            <h2 class="mb-1">
+                Bildirimlerim
+                @if (unreadCount > 0)
+                {
+                    <span class="badge bg-danger fs-6 align-middle ms-1">@unreadCount Unread</span>
+                }
+            </h2>
+            <p class="text-muted mb-0">
+                @if (currentUser != null)
+                {
+                    <span><strong>@currentUser.Name</strong> Listed Notifications For (@currentUser.RoleName) </span>
+                }
+                else
+                {
+                    <span>Your Notifications</span>
+                }
+            </p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+            @if (isAdmin)
+            {
+                <a href="@Url.Action("Create", "Notifications")" class="btn btn-dark">
+                    Create Notification
+                </a>
+            }
+
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-secondary active" onclick="filterInbox('all', this)">All</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="filterInbox('Unread', this)">Unread</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="filterInbox('Read', this)">Read</button>
+            </div>
+
+            @if (unreadCount > 0)
+            {
+                using (Html.BeginForm("MarkAllAsRead", "Notifications", FormMethod.Post, new { @class = "d-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-success">Make All Read</button>
+                }
+            }
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="card border-0 shadow-sm text-center py-5">
+            <div class="card-body">
+                <h5 class="text-muted mb-1">There exist no notification..</h5>
+                <p class="text-muted small mb-0">There will show when new notification is send..</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var item in Model)
+            {
+                bool isUnread = item.Status == "Unread";
+                <div class="col-12 inbox-card" data-status="@item.Status">
+                    <div class="card shadow-sm @(isUnread ? "border-start border-4 border-primary" : "border-0 bg-light")">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start gap-3">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h5 class="card-title mb-0 @(isUnread ? "fw-bold" : "fw-normal")">@item.Title</h5>
+                                        @if (isUnread)
+                                        {
+                                            <span class="badge bg-primary">Yeni</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Okundu</span>
+                                        }
+                                    </div>
+                                    <div class="text-muted small mb-2">
+                                        @item.Date.ToString("dd.MM.yyyy") • @item.Time.ToString(@"hh\:mm")
+                                    </div>
+                                </div>
+
+                                @if (isUnread)
+                                {
+                                    using (Html.BeginForm("MarkAsRead", "Notifications", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("id", item.NotificationId)
+                                        <button type="submit" class="btn btn-sm btn-outline-primary text-nowrap">
+                                            Okundu İşaretle
+                                        </button>
+                                    }
+                                }
+                            </div>
+
+                            <p class="card-text mb-0 mt-2" style="white-space: pre-line;">@item.Message</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    function filterInbox(status, btn) {
+        document.querySelectorAll('.inbox-card').forEach(card => {
+            const cardStatus = card.getAttribute('data-status');
+            card.style.display = (status === 'all' || cardStatus === status) ? '' : 'none';
+        });
+
+        document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+    }
+</script>
+
