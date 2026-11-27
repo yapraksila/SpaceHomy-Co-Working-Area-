@@ -193,5 +193,67 @@ namespace ourwebpage.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CheckIn(int id)
+        {
+            var booking = db.Bookings.Find(id);
+            if (booking == null)
+                return HttpNotFound();
+
+            if (booking.Status == "Cancelled" || booking.Status == "Completed" || booking.CheckInAt.HasValue)
+            {
+                TempData["ErrorMessage"] = "This reservation cannot be checked in.";
+                return RedirectToAction("Index");
+            }
+
+            DateTime scheduledStart = booking.BookingDay.Date + booking.StartTime;
+            DateTime earliestCheckIn = scheduledStart.AddMinutes(-5);
+            DateTime now = DateTime.Now;
+
+            if (now < earliestCheckIn)
+            {
+                TempData["ErrorMessage"] = $"Check-in opens at {earliestCheckIn:dd MMM yyyy HH:mm} (5 minutes before start time).";
+                return RedirectToAction("Index");
+            }
+
+            booking.CheckInAt = now;
+            booking.Status = "CheckedIn";
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Check-in time recorded.";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CheckOut(int id)
+        {
+            var booking = db.Bookings.Find(id);
+            if (booking == null)
+                return HttpNotFound();
+
+            if (!booking.CheckInAt.HasValue && booking.Status != "CheckedIn")
+            {
+                TempData["ErrorMessage"] = "You must check in before checking out.";
+                return RedirectToAction("Index");
+            }
+
+            if (booking.CheckOutAt.HasValue || booking.Status == "Completed")
+            {
+                TempData["ErrorMessage"] = "Check-out has already been completed.";
+                return RedirectToAction("Index");
+            }
+
+            booking.CheckOutAt = DateTime.Now;
+            booking.Status = "Completed";
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Check-out time recorded.";
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

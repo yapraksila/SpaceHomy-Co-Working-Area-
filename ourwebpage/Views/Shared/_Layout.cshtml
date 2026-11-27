@@ -32,27 +32,26 @@
 
         <div id="topLayer">
             @if (Request.IsAuthenticated)
-         {
-            <span style="align-self: center; font-weight: 600; color: #222; margin-right: 8px;">
-                @User.Identity.Name
-            </span>
-             if (User.IsInRole("Admin"))
-             {
-            <button id="sign_in_button" onclick="window.location.href='@Url.Action("Index", "Admin")'">Admin Panel</button>
-             }
-             using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline;" }))
-             {
-            @Html.AntiForgeryToken()
-            <button id="log_in_button" type="submit">Log Out</button>
-             }
-         }
-         else
-         {
-            <button id="sign_in_button" onclick="window.location.href='@Url.Action("Login", "Account")'">Sign In</button>
-            <button id="log_in_button" onclick="window.location.href='@Url.Action("Register", "Account")'">Register</button>
-         }
+            {
+                <span style="align-self: center; font-weight: 600; color: #222; margin-right: 8px;">
+                    @User.Identity.Name
+                </span>
+                if (User.IsInRole("Admin"))
+                {
+                    <button id="sign_in_button" onclick="window.location.href='@Url.Action("Index", "Admin")'">Admin Panel</button>
+                }
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button id="log_in_button" type="submit">Log Out</button>
+                }
+            }
+            else
+            {
+                <button id="sign_in_button" onclick="window.location.href='@Url.Action("Login", "Account")'">Sign In</button>
+                <button id="log_in_button" onclick="window.location.href='@Url.Action("Register", "Account")'">Register</button>
+            }
         </div>
-
     </header>
 
     <!-- Kapsayıcı sınıfları kaldırdık, sayfalar kendi stilleriyle tam oturacak -->
@@ -84,14 +83,23 @@
             align-items: center; /*align elements of header in the center */
             background-color: white; /*COLOR*/
             padding: 20px 32px; /*space for the items from header lines*/
-            color: black /*text color*/
+            color: black; /*text color*/
         }
 
         .brand {
             display: flex; /*logo and brand name next to each other*/
             align-items: center;
             gap: 12px;
+            text-decoration: none;
+            color: #222;
         }
+
+            .brand:hover,
+            .brand:focus,
+            .brand:visited {
+                text-decoration: none;
+                color: #222;
+            }
 
         header img {
             width: 35px;
@@ -100,6 +108,8 @@
 
         header h1 {
             font-size: 28px;
+            margin: 0;
+            color: inherit;
         }
 
         nav {
@@ -138,7 +148,6 @@
 
         #log_in_button {
             background-color: #2B2B2B; /* dark button */
-
         }
 
         footer {

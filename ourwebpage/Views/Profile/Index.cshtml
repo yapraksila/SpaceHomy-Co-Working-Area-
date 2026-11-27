@@ -85,7 +85,29 @@
         font-size: 0.76rem;
         opacity: 0.85;
         word-break: break-all;
+        margin-bottom: 16px;
     }
+
+    .btn-edit-profile {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: #6B4A35;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.2;
+        cursor: pointer;
+    }
+
+        .btn-edit-profile:hover,
+        .btn-edit-profile:focus {
+            background-color: #543827;
+            color: #FFFFFF;
+        }
 
     .section-block {
         margin-bottom: 42px;
@@ -154,6 +176,7 @@
         align-items: center;
         gap: 8px;
         margin-top: 16px;
+        flex-wrap: wrap;
     }
 
         .res-actions form {
@@ -166,16 +189,39 @@
         color: #FFFFFF;
         border: none;
         border-radius: 5px;
-        padding: 7px 22px;
+        padding: 7px 18px;
         font-size: 0.8rem;
         font-weight: 500;
         line-height: 1.2;
         white-space: nowrap;
+        cursor: pointer;
     }
 
-        .btn-brown:hover {
+        .btn-brown:hover:not(:disabled) {
             background-color: #543827;
             color: #FFFFFF;
+        }
+
+        .btn-brown:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    .btn-outline-brown {
+        background-color: transparent;
+        color: #6B4A35;
+        border: 1px solid #6B4A35;
+        border-radius: 5px;
+        padding: 7px 18px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.2;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+        .btn-outline-brown:hover {
+            background-color: rgba(107, 74, 53, 0.08);
         }
 
     .empty-reservation-box {
@@ -184,6 +230,137 @@
         padding: 22px 24px;
         color: #6E5D46;
         font-size: 0.92rem;
+    }
+
+    .custom-modal-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(59, 47, 35, 0.55);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+    }
+
+        .custom-modal-backdrop.show {
+            display: flex;
+        }
+
+    .custom-modal-box {
+        background-color: #FAF7F0;
+        color: #3B2F23;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 460px;
+        padding: 24px 28px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+        animation: modalFadeIn 0.18s ease-out;
+    }
+
+    @@keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .custom-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(59, 47, 35, 0.12);
+        padding-bottom: 12px;
+        margin-bottom: 18px;
+    }
+
+    .custom-modal-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .custom-modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        line-height: 1;
+        color: #6E5D46;
+        cursor: pointer;
+    }
+
+    .custom-modal-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed rgba(59, 47, 35, 0.1);
+        font-size: 0.92rem;
+    }
+
+        .custom-modal-row:last-child {
+            border-bottom: none;
+        }
+
+    .custom-modal-label {
+        color: #6E5D46;
+        font-weight: 600;
+    }
+
+    .custom-modal-value {
+        font-weight: 700;
+        color: #3B2F23;
+    }
+
+    .edit-form-group {
+        margin-bottom: 14px;
+    }
+
+    .edit-form-label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #6E5D46;
+        margin-bottom: 6px;
+    }
+
+    .edit-form-input {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid rgba(59, 47, 35, 0.25);
+        border-radius: 6px;
+        background-color: #FFFFFF;
+        color: #3B2F23;
+        font-size: 0.92rem;
+        box-sizing: border-box;
+    }
+
+        .edit-form-input:focus {
+            outline: none;
+            border-color: #65743A;
+            box-shadow: 0 0 0 2px rgba(101, 116, 58, 0.18);
+        }
+
+        .edit-form-input:disabled {
+            background-color: #EFECE4;
+            color: #6E5D46;
+            cursor: not-allowed;
+        }
+
+    .custom-modal-footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
     }
 
     @@media (max-width: 768px) {
@@ -227,19 +404,26 @@
             </div>
         }
 
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <div class="profile-top-row">
             <div>
                 <h1 class="profile-title">My Profile</h1>
             </div>
 
-            <a href="@Url.Action("Edit", "Profile")" class="text-decoration-none" title="Edit Profile">
-                <div class="account-card">
-                    <div class="account-card-label">ACCOUNT</div>
-                    <div class="account-card-username">@userName</div>
-                    <div class="account-card-fullname">@Model.UserProfile.Name</div>
-                    <div class="account-card-email">@Model.UserProfile.Email</div>
-                </div>
-            </a>
+            <div class="account-card">
+                <div class="account-card-label">ACCOUNT</div>
+                <div class="account-card-username">@userName</div>
+                <div class="account-card-fullname">@Model.UserProfile.Name</div>
+                <div class="account-card-email">@Model.UserProfile.Email</div>
+                <button type="button" class="btn-edit-profile" onclick="openEditProfileModal()">Edit Profile</button>
+            </div>
         </div>
 
         <div class="section-block">
@@ -259,6 +443,12 @@
                     string formattedDate = booking.BookingDay.ToString("dd MMMM yyyy", enCulture);
                     string formattedTime = booking.StartTime.ToString(@"hh\:mm") + " – " + booking.EndTime.ToString(@"hh\:mm");
                     string statusLabel = (booking.Status == "Confirmed" || booking.Status == "Pending") ? "Upcoming" : booking.Status;
+
+                    bool hasCheckedIn = booking.CheckInAt.HasValue || booking.Status == "CheckedIn";
+                    bool hasCheckedOut = booking.CheckOutAt.HasValue || booking.Status == "Completed";
+                    System.DateTime scheduledStart = booking.BookingDay.Date + booking.StartTime;
+                    System.DateTime earliestCheckIn = scheduledStart.AddMinutes(-5);
+                    bool canCheckInNow = System.DateTime.Now >= earliestCheckIn;
 
                     <div class="reservation-card">
                         <div class="reservation-grid">
@@ -280,23 +470,42 @@
                                 </div>
 
                                 <div class="res-actions">
-                                    <button type="button"
-                                            class="btn btn-brown"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#bookingDetailModal"
-                                            data-id="@booking.BookingId"
-                                            data-room="@roomName"
-                                            data-date="@formattedDate"
-                                            data-time="@formattedTime"
-                                            data-status="@statusLabel">
-                                        Details
-                                    </button>
-
-                                    @using (Html.BeginForm("CancelBooking", "Profile", FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to cancel this reservation?');" }))
+                                    @if (!hasCheckedIn && !hasCheckedOut)
                                     {
-                                        @Html.AntiForgeryToken()
-                                        @Html.Hidden("id", booking.BookingId)
-                                        <button type="submit" class="btn btn-brown">Cancel</button>
+                                        if (canCheckInNow)
+                                        {
+                                            using (Html.BeginForm("CheckIn", "Profile", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("id", booking.BookingId)
+                                                <button type="submit" class="btn btn-brown">Check-in</button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-brown"
+                                                    disabled
+                                                    title="Available from @earliestCheckIn.ToString("HH:mm", enCulture)">
+                                                Check-in (@earliestCheckIn.ToString("HH:mm", enCulture))
+                                            </button>
+                                        }
+
+                                        using (Html.BeginForm("CancelBooking", "Profile", FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to cancel this reservation?');" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("id", booking.BookingId)
+                                            <button type="submit" class="btn btn-brown">Cancel</button>
+                                        }
+                                    }
+                                    else if (hasCheckedIn && !hasCheckedOut)
+                                    {
+                                        using (Html.BeginForm("CheckOut", "Profile", FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("id", booking.BookingId)
+                                            <button type="submit" class="btn btn-brown">Check-out</button>
+                                        }
                                     }
                                 </div>
                             </div>
@@ -322,6 +531,12 @@
                     string roomName = booking.Facility != null ? booking.Facility.Name : ("Room #" + booking.FacilityId);
                     string formattedDate = booking.BookingDay.ToString("dd MMMM yyyy", enCulture);
                     string formattedTime = booking.StartTime.ToString(@"hh\:mm") + " – " + booking.EndTime.ToString(@"hh\:mm");
+                    string checkInDisplay = booking.CheckInAt.HasValue
+                        ? booking.CheckInAt.Value.ToString("dd MMM yyyy HH:mm", enCulture)
+                        : "Not recorded";
+                    string checkOutDisplay = booking.CheckOutAt.HasValue
+                        ? booking.CheckOutAt.Value.ToString("dd MMM yyyy HH:mm", enCulture)
+                        : "Not recorded";
                     string statusLabel = booking.Status == "Cancelled" ? "Cancelled" : "Completed";
 
                     <div class="reservation-card">
@@ -346,12 +561,12 @@
                                 <div class="res-actions">
                                     <button type="button"
                                             class="btn btn-brown"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#bookingDetailModal"
+                                            onclick="openBookingModal(this)"
                                             data-id="@booking.BookingId"
                                             data-room="@roomName"
                                             data-date="@formattedDate"
-                                            data-time="@formattedTime"
+                                            data-checkin="@checkInDisplay"
+                                            data-checkout="@checkOutDisplay"
                                             data-status="@statusLabel">
                                         Details
                                     </button>
@@ -366,50 +581,119 @@
     </div>
 </div>
 
-<div class="modal fade" id="bookingDetailModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background-color: #FAF7F0; color: #3B2F23; border-radius: 10px;">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold">Reservation Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Edit Profile Modal -->
+<div id="editProfileModal" class="custom-modal-backdrop" onclick="closeModalOnBackdrop(event, 'editProfileModal')">
+    <div class="custom-modal-box">
+        <div class="custom-modal-header">
+            <h5 class="custom-modal-title">Edit Profile</h5>
+            <button type="button" class="custom-modal-close" onclick="closeEditProfileModal()">×</button>
+        </div>
+
+        @using (Html.BeginForm("Edit", "Profile", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("RoleId", Model.UserProfile.RoleId)
+            @Html.Hidden("UserName", userName)
+            @Html.Hidden("RoleName", Model.UserProfile.RoleName)
+
+            <div class="edit-form-group">
+                <label class="edit-form-label" for="editUserName">Username</label>
+                <input type="text" id="editUserName" class="edit-form-input" value="@userName" disabled />
             </div>
-            <div class="modal-body">
-                <dl class="row mb-0">
-                    <dt class="col-sm-4 text-muted">Reservation ID</dt>
-                    <dd class="col-sm-8 fw-semibold" id="modalResId"></dd>
 
-                    <dt class="col-sm-4 text-muted">Room</dt>
-                    <dd class="col-sm-8 fw-semibold" id="modalResRoom"></dd>
-
-                    <dt class="col-sm-4 text-muted">Date</dt>
-                    <dd class="col-sm-8" id="modalResDate"></dd>
-
-                    <dt class="col-sm-4 text-muted">Time</dt>
-                    <dd class="col-sm-8" id="modalResTime"></dd>
-
-                    <dt class="col-sm-4 text-muted">Status</dt>
-                    <dd class="col-sm-8" id="modalResStatus"></dd>
-                </dl>
+            <div class="edit-form-group">
+                <label class="edit-form-label" for="editFullName">Full Name</label>
+                <input type="text" id="editFullName" name="Name" class="edit-form-input" value="@Model.UserProfile.Name" required />
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-brown" data-bs-dismiss="modal">Close</button>
+
+            <div class="edit-form-group">
+                <label class="edit-form-label" for="editEmail">Email</label>
+                <input type="email" id="editEmail" name="Email" class="edit-form-input" value="@Model.UserProfile.Email" required />
             </div>
+
+            <div class="custom-modal-footer">
+                <button type="button" class="btn-outline-brown" onclick="closeEditProfileModal()">Cancel</button>
+                <button type="submit" class="btn btn-brown">Save Changes</button>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Reservation Details Modal -->
+<div id="bookingDetailModal" class="custom-modal-backdrop" onclick="closeModalOnBackdrop(event, 'bookingDetailModal')">
+    <div class="custom-modal-box">
+        <div class="custom-modal-header">
+            <h5 class="custom-modal-title">Reservation Details</h5>
+            <button type="button" class="custom-modal-close" onclick="closeBookingModal()">×</button>
+        </div>
+
+        <div>
+            <div class="custom-modal-row">
+                <span class="custom-modal-label">Reservation ID</span>
+                <span class="custom-modal-value" id="modalResId"></span>
+            </div>
+            <div class="custom-modal-row">
+                <span class="custom-modal-label">Room</span>
+                <span class="custom-modal-value" id="modalResRoom"></span>
+            </div>
+            <div class="custom-modal-row">
+                <span class="custom-modal-label">Date</span>
+                <span class="custom-modal-value" id="modalResDate"></span>
+            </div>
+            <div class="custom-modal-row">
+                <span class="custom-modal-label">Check-in</span>
+                <span class="custom-modal-value" id="modalResCheckIn"></span>
+            </div>
+            <div class="custom-modal-row">
+                <span class="custom-modal-label">Check-out</span>
+                <span class="custom-modal-value" id="modalResCheckOut"></span>
+            </div>
+            <div class="custom-modal-row">
+                <span class="custom-modal-label">Status</span>
+                <span class="custom-modal-value" id="modalResStatus"></span>
+            </div>
+        </div>
+
+        <div class="custom-modal-footer">
+            <button type="button" class="btn btn-brown" onclick="closeBookingModal()">Close</button>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('bookingDetailModal')?.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        if (!button) return;
+    function openEditProfileModal() {
+        document.getElementById('editProfileModal').classList.add('show');
+    }
 
+    function closeEditProfileModal() {
+        document.getElementById('editProfileModal').classList.remove('show');
+    }
+
+    function openBookingModal(button) {
         document.getElementById('modalResId').textContent = '#' + button.getAttribute('data-id');
         document.getElementById('modalResRoom').textContent = button.getAttribute('data-room');
         document.getElementById('modalResDate').textContent = button.getAttribute('data-date');
-        document.getElementById('modalResTime').textContent = button.getAttribute('data-time');
+        document.getElementById('modalResCheckIn').textContent = button.getAttribute('data-checkin');
+        document.getElementById('modalResCheckOut').textContent = button.getAttribute('data-checkout');
         document.getElementById('modalResStatus').textContent = button.getAttribute('data-status');
+
+        document.getElementById('bookingDetailModal').classList.add('show');
+    }
+
+    function closeBookingModal() {
+        document.getElementById('bookingDetailModal').classList.remove('show');
+    }
+
+    function closeModalOnBackdrop(event, modalId) {
+        if (event.target.id === modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeBookingModal();
+            closeEditProfileModal();
+        }
     });
 </script>
-```[cite: 1]
-
-`ProfileController` tarafında da `Index` action'ının `ProfileIndexViewModel` doldurup `View(vm)` döndürdüğünden emin olman yeterli. Sayfada hâlâ yerleşimle ilgili farklı duran bir kısım görürsen söyle, hemen düzeltelim[cite: 1].

@@ -58,5 +58,8 @@ namespace ourwebpage.Models
             Status = "Pending";
             BookingAmenities = new HashSet<BookingAmenity>();
         }
+
+        public DateTime? CheckInAt { get; set; }
+        public DateTime? CheckOutAt { get; set; }
     }
 }
